@@ -1,0 +1,6 @@
+UnsupportedOperationException
+AccountBlockedException
+AccountNotVerifiedException
+IllegalArgumentException
+TokenJwtException
+AuthenticationException

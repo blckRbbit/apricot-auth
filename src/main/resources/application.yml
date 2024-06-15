@@ -1,0 +1,59 @@
+---
+server:
+  port: 8050
+
+spring:
+
+  config:
+    import:
+      optional:file:.env[.properties]
+    profiles:
+      active: ${PROFILE:test}
+
+  application:
+    name: ${AUTH_APP_NAME:apricot-auth}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:postgresql://${AUTH_DB_HOST:localhost}:${AUTH_DB_PORT:5432}/${AUTH_DB_NAME:apricot_auth_db}?currentSchema=${AUTH_DB_SCHEMA:apricot_auth_schema}&autoReconnect=true
+    username: ${AUTH_DB_USERNAME}
+    password: ${AUTH_DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER_NAME:org.postgresql.Driver}
+
+    hikari:
+      minimum-idle: ${AUTH_HIKARI_MIN_IDLE:5}
+      maximum-pool-size: ${AUTH_HIKARI_MAX_POOL_SIZE:100}
+      idle-timeout: ${AUTH_HIKARI_IDLE_TIME_OUT:30000}
+      max-lifetime: ${AUTH_HIKARI_MAX_LIFETIME:2000000}
+      connection-timeout: ${AUTH_HIKARI_CONN_TIMEOUT:30000}
+      pool-name: ${AUTH_HIKARI_POOL_NAME:HikariDbPool}
+
+  springdoc:
+    swagger-ui:
+      path: ${AUTH_SWAGGER_PATH:/apricot/auth/api/v1/swagger}
+      disable-swagger-default-url: true
+      enabled: true
+    api-docs:
+      path: ${AUTH_API_DOCS:/apricot/auth/api/v1/docs}
+      enabled: true
+
+auth-app:
+
+  path-start-prefix: ${AUTH_START_PREFIX:/apricot/auth}
+
+  security:
+    jwt:
+      secret: ${AUTH_JWT_SECRET}
+      access-token-key: ${ACCESS_TOKEN_KEY}
+      access-token-lifetime: ${ACCESS_TOKEN_LIFETIME}
+      refresh-token-key: ${REFRESH_TOKEN_KEY}
+      refresh-token-lifetime: ${REFRESH_TOKEN_LIFETIME}
+      jws-algorithm: ${JWS_ALGORITHM}
+      jwe-algorithm: ${JWE_ALGORITHM}
+      encryption-method: ${ENCRYPTION_METHOD}
+
+    cors:
+      allowed-origins: ${AUTH_ALLOWED_ORIGINS:http://localhost:8050/, http://localhost:8051/, http://localhost:3000/}
